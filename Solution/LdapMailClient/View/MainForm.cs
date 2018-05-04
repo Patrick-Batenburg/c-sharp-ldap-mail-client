@@ -239,7 +239,7 @@ namespace LdapMailClient.View
 
 			if (recievedMailsWithErrors)
 			{
-				MessageBox.Show("Unable to recieve one or more messages.", "Mail error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show("Unable to recieve one or more messages.", "Connection error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
 
@@ -462,7 +462,7 @@ namespace LdapMailClient.View
 			}
 			catch (Exception)
 			{
-				MessageBox.Show("Unable to send message, please check the connection.", "Mail error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show("Unable to send message, please check the connection.", "Connection error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 
 		}
