@@ -1,33 +1,37 @@
 ﻿using LdapMailClient.Model;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LdapMailClient.Controller
 {
 	public class UsersController
 	{
-		IUsersView view;
-		IList<User> users;
-		User selectedUser;
+		private IUsersView view;
+		private IEnumerable<User> users;
+		private User selectedUser;
 
-		public UsersController(IUsersView view, IList<User> users)
+		/// <summary>
+		/// Initializes a new instance of the <see cref="UsersController"/> class by using the specified view context and data source.
+		/// </summary>
+		/// <param name="view">The view context.</param>
+		/// <param name="mails">The data source.</param>
+		public UsersController(IUsersView view, IEnumerable<User> users)
 		{
 			this.view = view;
 			this.users = users;
 			view.SetController(this);
 		}
 
-		public IList<User> Users
-		{
-			get { return users.ToList<User>(); }
-		}
+		/// <summary>
+		/// Returns a read-only <see cref="System.Collections.ObjectModel.ReadOnlyCollection{T}"/> wrapper for the current collection.
+		/// </summary>
+		public IEnumerable<User> Users => users.ToList().AsReadOnly();
 
+		/// <summary>
+		/// Causes the control to redraw the invalidated regions within its client area.
+		/// </summary>
 		public void LoadView()
-		{
+		{	
 			view.ClearGrid();
 
 			foreach (User user in users)
@@ -35,14 +39,18 @@ namespace LdapMailClient.Controller
 				view.AddUserToGrid(user);
 			}
 
-			view.SetSelectedUserInGrid((User)users[0]);
+			view.SetSelectedUserInGrid(users.ElementAt(0));
 		}
 
-		public void SelectedUserChanged(int selectedUserId)
+		/// <summary>
+		/// Occurs when the selected <see cref="User"/> changes.
+		/// </summary>
+		/// <param name="ID">The <see cref="User.ID"/> of the <see cref="User"/> object.</param>
+		public void SelectedUserChanged(int ID)
 		{
 			foreach (User user in this.users)
 			{
-				if (user.ID == selectedUserId)
+				if (user.ID == ID)
 				{
 					selectedUser = user;
 					view.SetSelectedUserInGrid(user);
